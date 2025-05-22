@@ -1,0 +1,29 @@
+[project]
+name = "github_resume_generator"
+version = "0.1.0"
+description = "Demo of Gemini 2.5 with Search Grounding using CrewAI to generate Resumes from GitHub" # Updated description
+authors = [{ name = "Mark McDonald", email = "macd@google.com" }]
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "crewai[tools]>=0.119.0,<1.0.0",
+    "fastapi>=0.115.12",
+    "uvicorn>=0.34.2",
+]
+
+[project.scripts]
+github_resume_generator = "github_resume_generator.main:run"
+run_crew = "github_resume_generator.main:run"
+train = "github_resume_generator.main:train"
+replay = "github_resume_generator.main:replay"
+test = "github_resume_generator.main:test"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/github_resume_generator", "src/api", "src/static"]
+
+
+[tool.crewai]
+type = "crew"

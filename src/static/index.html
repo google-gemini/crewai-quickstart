@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Resume Generator</title>
+    <meta property="og:title" content="GitHub Resume Generator">
+    <meta property="og:description" content="Generate a CV/Resume from your GitHub account. Powered by Gemini API and CrewAI.">
+    <meta property="og:image" content="/r/social.png">
+    <meta property="og:url" content="/">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@m4rkmc">
+    <meta name="twitter:creator" content="@m4rkmc">
+    <meta name="twitter:title" content="GitHub Resume Generator">
+    <meta name="twitter:description" content="Generate a CV/Resume from your GitHub account. Powered by Gemini API and CrewAI.">
+    <meta name="twitter:image" content="/r/social.png">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E📄%3C/text%3E%3C/svg%3E">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #2d3748;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4a5568;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6b7280;
+        }
+        #statusDisplay h1, #statusDisplay h2, #statusDisplay h3, #statusDisplay h4, #statusDisplay h5, #statusDisplay h6 {
+            font-weight: 600;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            color: #e2e8f0;
+        }
+        #statusDisplay p {
+            margin-bottom: 1em;
+        }
+        #statusDisplay ul, #statusDisplay ol {
+            list-style-position: inside;
+            margin-left: 1em;
+            margin-bottom: 1em;
+        }
+        #statusDisplay li {
+            margin-bottom: 0.5em;
+        }
+        #statusDisplay code {
+            background-color: #4a5568;
+            padding: 0.2em 0.4em;
+            border-radius: 0.3em;
+            font-size: 0.875em;
+        }
+        #statusDisplay pre {
+            background-color: #1a202c;
+            padding: 1em;
+            border-radius: 0.5em;
+            overflow-x: auto;
+            margin-bottom: 1em;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+            margin-top: -15px;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col items-center justify-center p-4">
+    <div class="bg-gray-800 p-8 rounded-lg shadow-2xl w-full max-w-3xl border border-gray-700">
+        <h1 class="text-4xl font-bold text-center text-blue-500 mb-6">
+            <span class="text-gray-200">GitHub</span> Resume Generator
+        </h1>
+
+        <div class="mb-6">
+            <label for="usernameInput" class="block text-gray-300 text-sm font-medium mb-2">
+                GitHub Username:
+            </label>
+            <div class="flex space-x-3">
+                <input
+                    type="text"
+                    id="usernameInput"
+                    placeholder="e.g., markmcd"
+                    class="flex-1 p-3 bg-gray-700 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-100 placeholder-gray-400 shadow-sm min-w-0"
+                >
+                <button
+                    id="generateButton"
+                    class="px-6 py-3 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800 transition-all duration-200 ease-in-out shadow-lg"
+                >
+                    Generate Resume
+                </button>
+            </div>
+        </div>
+
+        <div
+            id="statusDisplay"
+            class="w-full h-auto min-h-[200px] p-4 bg-gray-700 border border-gray-600 rounded-md text-gray-200 text-base leading-relaxed overflow-y-auto shadow-inner"
+        >
+            <p class="text-gray-400">Enter a GitHub username and click "Generate Resume" to begin.</p>
+        </div>
+    </div>
+
+    <div class="text-center text-gray-500 text-sm mt-8">
+        <p>
+            This app is built by
+            <a href="http://linktree.com/markmcd" target="_blank" class="text-blue-400 hover:text-blue-300 underline">Mark McD</a>
+            using the
+            <a href="https://ai.google.dev/gemini-api" target="_blank" class="text-blue-400 hover:text-blue-300 underline">Gemini API</a>
+            and
+            <a href="https://www.crewai.com/" target="_blank" class="text-blue-400 hover:text-blue-300 underline">CrewAI</a>.
+        </p>
+        <p class="mt-1">
+            Check out the source on
+            <a href="https://github.com/todo" target="_blank" class="text-blue-400 hover:text-blue-300 underline">GitHub</a>.
+        </p>
+    </div>
+
+    <script>
+        const usernameInput = document.getElementById('usernameInput');
+        const generateButton = document.getElementById('generateButton');
+        const statusDisplay = document.getElementById('statusDisplay');
+
+        let eventSource = null;
+        let finalResumeText = '';
+        let currentUsername = '';
+
+        generateButton.addEventListener('click', startResumeGeneration);
+
+        usernameInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                startResumeGeneration();
+            }
+        });
+
+        function resetUI() {
+            statusDisplay.innerHTML = `
+                <div class="flex items-center">
+                    <div class="spinner"></div>
+                    <p class="text-gray-400">Starting resume generation...</p>
+                </div>
+            `;
+            generateButton.disabled = true;
+            generateButton.textContent = 'Generating...';
+            finalResumeText = '';
+            currentUsername = '';
+
+            if (eventSource) {
+                eventSource.close();
+            }
+        }
+
+        function enableGenerateButton(text = 'Generate Resume') {
+            generateButton.disabled = false;
+            generateButton.textContent = text;
+        }
+
+        function handleStreamError(error, message) {
+            console.error('EventSource failed:', error);
+            statusDisplay.innerHTML = `<p class="text-red-400">${message}</p><p class="text-red-400">Note that on mobile navigating away may interrupt the generation.</p>`;
+            if (eventSource) {
+                eventSource.close();
+            }
+            enableGenerateButton();
+        }
+
+        function updateStatusText(message) {
+            statusDisplay.innerHTML = `
+                <div class="flex items-center">
+                    <div class="spinner"></div>
+                    <p class="text-gray-200">${message}</p>
+                </div>
+            `;
+            statusDisplay.scrollTop = statusDisplay.scrollHeight;
+        }
+
+        function startResumeGeneration() {
+            const username = usernameInput.value.trim();
+            if (!username) {
+                alert('Please enter a GitHub username!');
+                return;
+            }
+
+            resetUI();
+            currentUsername = username;
+
+            const apiBaseUrl = window.location.origin;
+            const sseUrl = `${apiBaseUrl}/resume?username=${encodeURIComponent(username)}`;
+
+            eventSource = new EventSource(sseUrl);
+
+            eventSource.onopen = function(event) {
+                console.log('Connection established.');
+            };
+
+            eventSource.addEventListener('progress_update', function(event) {
+                try {
+                    const data = JSON.parse(event.data);
+                    console.log('Received progress_update:', data);
+
+                    let displayMessage = '';
+                    if (data.status === 'started') {
+                        displayMessage = 'Analyzing profile...';
+                    } else if (data.status === 'task_done') {
+                        if (data.task === 'profile_research_task') {
+                            displayMessage = 'Generating resume...';
+                        } else if (data.task === 'resume_generation_task') {
+                            displayMessage = 'Done!';
+                        } else {
+                            displayMessage = `Task "${data.task}" completed.`;
+                        }
+                    }
+                    updateStatusText(displayMessage);
+                } catch (e) {
+                    handleStreamError(e, `Error parsing progress update: ${event.data}`);
+                }
+            });
+
+            eventSource.onmessage = function(event) {
+                try {
+                    const data = JSON.parse(event.data);
+                    console.log('Received generic message:', data);
+
+                    if (data.status === 'completed') {
+                        statusDisplay.innerHTML = marked.parse(data.output);
+                        finalResumeText = data.output;
+                        eventSource.close();
+                        enableGenerateButton();
+                    } else if (data.status === 'error') {
+                        handleStreamError(null, `Error during generation: ${data.message || 'Please try again.'}`);
+                    }
+                } catch (e) {
+                    handleStreamError(e, `Error parsing final message: ${event.data}`);
+                }
+            };
+
+            eventSource.onerror = function(error) {
+                handleStreamError(error, 'Could not connect to the resume generation service or an error occurred.');
+            };
+        }
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const usernameFromQuery = urlParams.get('username');
+            if (usernameFromQuery) {
+                usernameInput.value = usernameFromQuery;
+                setTimeout(startResumeGeneration, 100);
+            }
+        });
+    </script>
+</body>
+</html>

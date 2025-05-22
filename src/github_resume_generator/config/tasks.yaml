@@ -1,0 +1,25 @@
+profile_research_task:
+  description: >
+    Conduct a thorough analysis of GitHub user @{username}'s profile.
+    Extract information about their public repositories (name, description,
+    languages, stars, forks), contribution activity (commits, pull requests,
+    issues to their own and other repos), and profile details (bio, location,
+    website, organizations).
+  expected_output: >
+    A structured summary of the user's GitHub profile, including a list of
+    key repositories with their details, contribution statistics, and relevant
+    profile information.
+  agent: github_profile_researcher
+
+resume_generation_task:
+  description: >
+    Using the GitHub profile research, generate a professional CV/Resume
+    for @{username} in Markdown format. The resume should include sections like
+    Summary/Objective, Skills (derived from languages and project descriptions),
+    Projects (highlighting 2-3 key repositories), and Contributions.
+  expected_output: >
+    A well-formatted Markdown document representing the user's CV/Resume.
+    The resume should be professional, concise, and accurately reflect the
+    gathered data. DO NOT embed the output in a ```markdown block. Just raw markdown.
+    Make sure there are no thoughts or planning in the output, just the resume.
+  agent: resume_writer
