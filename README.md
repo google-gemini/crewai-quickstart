@@ -1,4 +1,4 @@
-# GitHub Resume Generator - Gemini API x CrewAI Demo
+# GitHub Resume Generator - Gemini API x CrewAI
 
 Use the [Gemini API](https://ai.google.dev/gemini-api/) and [CrewAI](https://crewai.com)
 to generate a CV/Resume from a GitHub profile, using CrewAI to manage
