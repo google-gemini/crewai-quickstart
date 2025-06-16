@@ -98,3 +98,11 @@ uv run github_resume_generator yourgithubusername
 ```
 
 You will get a markdown file created in the same directory, `yourgithubusername_resume.md`. Load it in your favourite markdown renderer, e.g. [`glow`](https://github.com/charmbracelet/glow).
+
+
+## Disclaimer
+
+This is not an officially supported Google product. This project is not eligible for the [Google Open Source Software Vulnerability Rewards Program](https://bughunters.google.com/open-source-security).
+
+This project is intended for demonstration purposes only. It is not intended for use in a production environment.
+
