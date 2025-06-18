@@ -5,6 +5,12 @@ to generate a CV/Resume from a GitHub profile, using CrewAI to manage
 a crew of agents, and using the Gemini API with Google Search Grounding to
 research and write the content.
 
+## Demo
+
+![Demo of GitHub Resume Generator](assets/demo.gif)
+
+*The app in action: Enter a GitHub username and watch as AI agents research and generate a professional resume*
+
 ## How it works
 
 A crew is defined that follows a short plan:
