@@ -48,6 +48,25 @@ This project uses [UV](https://docs.astral.sh/uv/) for Python dependency managem
 
 First, if you haven't already, install uv:
 
+#### macOS/Linux
+```bash
+curl -Ls https://astral.sh/uv/install.sh | sh
+```
+
+### Windows
+- Using Scoop:
+  ```powershell
+  scoop install uv
+  ```
+- Using PowerShell:
+  ```powershell
+  iwr https://astral.sh/uv/install.ps1 -useb | iex
+  ```
+- Using winget:
+  ```cmd
+  winget install --id=astral-sh.uv  -e
+  ```
+### PIP
 ```bash
 pip install uv
 ```
