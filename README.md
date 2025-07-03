@@ -53,7 +53,7 @@ pipx install uv
 ```
 
 > [!NOTE]
-> Check out the extensive list of [`uv` installation methods](https://docs.astral.sh/uv/getting-started/installation/#installation-methods), includinginstructions for macOS, Windows, Docker and more.
+> Check out the extensive list of [`uv` installation options](https://docs.astral.sh/uv/getting-started/installation/#installation-methods), including instructions for macOS, Windows, Docker and more.
 
 Next, navigate to your project directory and install the dependencies:
 
