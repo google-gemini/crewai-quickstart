@@ -46,13 +46,14 @@ This project uses [UV](https://docs.astral.sh/uv/) for Python dependency managem
 
 ### Initial setup
 
-First, if you haven't already, install uv:
+First, if you haven't already, install `uv`:
 
 ```bash
-pip install uv
+pipx install uv
 ```
 
-> **Note:** If you have trouble installing threw `pip`, refer to the [UV Installation Methods](https://docs.astral.sh/uv/getting-started/installation/#installation-methods) for alternative options.
+> [!NOTE]
+> Check out the extensive list of [`uv` installation methods](https://docs.astral.sh/uv/getting-started/installation/#installation-methods), includinginstructions for macOS, Windows, Docker and more.
 
 Next, navigate to your project directory and install the dependencies:
 
