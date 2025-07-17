@@ -19,7 +19,7 @@ from crewai import Agent, Crew, LLM, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 
-MODEL = 'gemini/gemini-2.5-flash-preview-04-17'
+MODEL = "gemini/gemini-2.5-flash-preview-05-20"
 
 
 class GeminiWithGoogleSearch(LLM):
@@ -36,7 +36,7 @@ class GeminiWithGoogleSearch(LLM):
     def __init__(self, model: str | None = None, **kwargs):
        if not model:
           # Use a default Gemini model.
-          model = os.getenv('MODEL', 'gemini/gemini-2.5-flash-preview-04-17')
+          model = os.getenv('MODEL', 'gemini/gemini-2.5-flash-preview-05-20')
 
        super().__init__(model, **kwargs)
 
